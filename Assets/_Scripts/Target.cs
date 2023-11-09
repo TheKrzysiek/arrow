@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 
-public class MovingTarget : MonoBehaviour, IHittable
+public class Target : MonoBehaviour, IHittable
 {
     private Rigidbody rb;
     private bool stopped = false;
@@ -11,13 +12,16 @@ public class MovingTarget : MonoBehaviour, IHittable
     private Vector3 originPosition;
 
     [SerializeField]
-    private int health = 1;
+    GameObject xr;
+
+    //[SerializeField]
+  //  private int health = 1;
 
     [SerializeField]
     private AudioSource audioSource;
 
     [SerializeField]
-    private float arriveThreshold, movementRadius = 2, speed = 1;
+    private float arriveThreshold, movementRadius = 2, speed = 1, x = 0, z = 0, y = 0;
 
     private void Awake()
     {
@@ -41,6 +45,7 @@ public class MovingTarget : MonoBehaviour, IHittable
 
     public void GetHit()
     {
+        xr.transform.position = new Vector3(x, y, z);
         /*health--;
         if(health <= 0)
         {

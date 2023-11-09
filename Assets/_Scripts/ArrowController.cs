@@ -1,14 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ArrowController : MonoBehaviour
 {
     [SerializeField]
+    public TextMeshPro countUI;
+
+    [SerializeField]
     private GameObject midPointVisual, arrowPrefab, arrowSpawnPoint;
 
     [SerializeField]
-    private float arrowMaxSpeed = 10;
+    private float arrowMaxSpeed = 50;
+
+    private int arrowCount = 0;
 
     [SerializeField]
     private AudioSource bowReleaseAudioSource;
@@ -20,6 +26,9 @@ public class ArrowController : MonoBehaviour
 
     public void ReleaseArrow(float strength)
     {
+        arrowCount =+ 1 ;
+        countUI.text = arrowCount.ToString();
+
         bowReleaseAudioSource.Play();
         midPointVisual.SetActive(false);
 
