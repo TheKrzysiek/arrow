@@ -10,7 +10,7 @@ public class TimerScript : MonoBehaviour
     [SerializeField]
     public TextMeshPro TimeDisplay;
 
-    private int TimerCount = 5;
+    private int TimerCount = 10;
 
     public IEnumerator Reset() {
         yield return new WaitForSeconds(1);

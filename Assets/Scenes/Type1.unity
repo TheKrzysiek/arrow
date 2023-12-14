@@ -1446,7 +1446,7 @@ MonoBehaviour:
     type: 3}
   WindSphere: {fileID: 985110934}
   WindHinge: {fileID: 206850017}
-  difficulty: 1
+  difficulty: 2
 --- !u!114 &471326121
 MonoBehaviour:
   m_ObjectHideFlags: 0
