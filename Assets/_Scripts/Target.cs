@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.XR.CoreUtils;
 using UnityEngine;
+using TMPro;
 
 public class Target : MonoBehaviour, IHittable
 {
@@ -12,28 +13,32 @@ public class Target : MonoBehaviour, IHittable
     private Vector3 originPosition;
 
     [SerializeField]
-    GameObject xr;
+    public TextMeshPro ScoreDisplay;
+        [SerializeField]
+    public TextMeshPro FinalScoreDisplay;
+
+    private int ScoreCount = 0;
 
     //[SerializeField]
-  //  private int health = 1;
+    //private int health = 1;
 
     [SerializeField]
     private AudioSource audioSource;
 
-    [SerializeField]
-    private float arriveThreshold, movementRadius = 2, speed = 1, x = 0, z = 0, y = 0;
+    //[SerializeField]
+    //private float arriveThreshold, movementRadius = 2, speed = 1, x = 0, z = 0, y = 0;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         originPosition = transform.position;
-        nextposition = GetNewMovementPosition();
+        //nextposition = GetNewMovementPosition();
     }
 
-    private Vector3 GetNewMovementPosition()
+   /* private Vector3 GetNewMovementPosition()
     {
         return originPosition + (Vector3)Random.insideUnitCircle * movementRadius;
-    }
+    }*/
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -45,7 +50,13 @@ public class Target : MonoBehaviour, IHittable
 
     public void GetHit()
     {
-        xr.transform.position = new Vector3(x, y, z);
+        FindObjectOfType<TimerScript>().StartTimer();
+
+        ScoreCount += 1 ;
+        ScoreDisplay.text = ScoreCount.ToString();
+
+        transform.position = new Vector3(Random.Range(6f,7f), Random.Range(0.7f,2f), Random.Range(-8f,-4f));
+
         /*health--;
         if(health <= 0)
         {
@@ -54,7 +65,12 @@ public class Target : MonoBehaviour, IHittable
         }*/
     }
 
-    private void FixedUpdate()
+    public void FinalScore()
+    {
+        FinalScoreDisplay.text = "Final score: " + ScoreCount.ToString();
+    }
+
+    /*private void FixedUpdate()
     {
         if (stopped == false)
         {
@@ -66,7 +82,7 @@ public class Target : MonoBehaviour, IHittable
             Vector3 direction = nextposition - transform.position;
             rb.MovePosition(transform.position + direction.normalized * Time.fixedDeltaTime * speed);
         }
-    }
+    }*/
 }
 
 public interface IHittable

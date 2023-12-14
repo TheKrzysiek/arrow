@@ -26,8 +26,7 @@ public class ArrowController : MonoBehaviour
 
     public void ReleaseArrow(float strength)
     {
-        arrowCount =+ 1 ;
-        countUI.text = arrowCount.ToString();
+        arrowCount += 1 ;
 
         bowReleaseAudioSource.Play();
         midPointVisual.SetActive(false);
@@ -38,5 +37,10 @@ public class ArrowController : MonoBehaviour
         Rigidbody rb = arrow.GetComponent<Rigidbody>();
         rb.AddForce(midPointVisual.transform.forward * strength * arrowMaxSpeed, ForceMode.Impulse);
 
+    }
+
+    public void ArrowCountDisplay()
+    {
+        countUI.text = "Arrows shot: " + arrowCount.ToString();
     }
 }
