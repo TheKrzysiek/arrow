@@ -7,15 +7,13 @@ public class ArrowWind : MonoBehaviour
     [SerializeField]
     private ConstantForce ArrowForce;
     [SerializeField]
-    private ConstantForce WindSphere;
-    [SerializeField]
     private ConstantForce WindHinge;
 
     private float windx = 0f;
     private float windy = 0f;
     private float windz = 0f;
     [SerializeField]
-    private int difficulty = 1;
+    private int difficulty = 0;
     private float windForce = 0f;
     private float windRange = 0f;
 
@@ -38,7 +36,6 @@ public class ArrowWind : MonoBehaviour
         }
 
         ArrowForce.force = new Vector3(windx, windy, windz);
-        WindSphere.force = ArrowForce.force;
         WindHinge.force = ArrowForce.force;
 
         int waitTimer = Random.Range(2,10);
@@ -50,6 +47,12 @@ public class ArrowWind : MonoBehaviour
     void Start()
     {
         switch(difficulty){
+            case 0:
+                windForce = 0f;
+                windRange = 0f;
+                windx = Random.Range(-windForce,windForce);
+                windz = Random.Range(-windForce,windForce);
+                break;
             case 1:
                 windForce = 1f;
                 windRange = 0.5f;
@@ -72,9 +75,21 @@ public class ArrowWind : MonoBehaviour
         StartCoroutine("Reset");
     }
 
-    // Update is called once per frame
-    void Update()
-    { 
 
+    public void DifficultyChange(int diff)
+    {
+        switch(diff)
+        {
+            case 1:
+                difficulty = 1;
+                break;
+            case 2:
+                difficulty = 2;
+                break;
+            case 3:
+                difficulty = 3;
+                break;
+        }
     }
+
 }

@@ -10,17 +10,21 @@ public class TimerScript : MonoBehaviour
     [SerializeField]
     public TextMeshPro TimeDisplay;
 
-    private int TimerCount = 10;
+    [SerializeField]
+    private GameObject scorequestion;
+
+    private int TimerCount = 15;
+    private int start = 0;
 
     public IEnumerator Reset() {
         yield return new WaitForSeconds(1);
         TimerCount --;
-        TimeDisplay.text = TimerCount.ToString();
+        TimeDisplay.text = "Timer: " + TimerCount.ToString();
 
         if(TimerCount == 0 )
         {
-            FindObjectOfType<Target>().FinalScore();
-            FindObjectOfType<ArrowController>().ArrowCountDisplay();
+            FindObjectOfType<ScoreCounter>().FinalScore();
+            scorequestion.SetActive(true);
         }
         else
         {
@@ -31,7 +35,15 @@ public class TimerScript : MonoBehaviour
     // Start is called before the first frame update
     public void StartTimer()
     {
-        TimeDisplay.text = TimerCount.ToString();
+        TimeDisplay.text = "Timer: " + TimerCount.ToString();
+        start ++;
+        
+        if(start == 1){
         StartCoroutine("Reset");
+        }
+    }
+    public void ResetTimer()
+    {
+        TimerCount = 15;  
     }
 }

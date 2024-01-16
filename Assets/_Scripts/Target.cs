@@ -1,44 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.XR.CoreUtils;
 using UnityEngine;
-using TMPro;
 
-public class Target : MonoBehaviour, IHittable
-{
+public class Target : MonoBehaviour, IHittable{
+    [SerializeField]
     private Rigidbody rb;
-    private bool stopped = false;
+    //private bool stopped = false;
 
     private Vector3 nextposition;
     private Vector3 originPosition;
 
     [SerializeField]
-    public TextMeshPro ScoreDisplay;
-        [SerializeField]
-    public TextMeshPro FinalScoreDisplay;
+    private GameObject TargetOriginal;
 
-    private int ScoreCount = 0;
-
-    //[SerializeField]
-    //private int health = 1;
+    [SerializeField]
+    private GameObject HitTargetToStart;
 
     [SerializeField]
     private AudioSource audioSource;
 
+    /*float x1;
+    float x2;
+    float y1;
+    float y2;
+    float z1;
+    float z2;*/
+
     //[SerializeField]
     //private float arriveThreshold, movementRadius = 2, speed = 1, x = 0, z = 0, y = 0;
 
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody>();
+    public void Awake()
+    {     
+        rb.isKinematic = true;  
+    
         originPosition = transform.position;
         //nextposition = GetNewMovementPosition();
     }
-
-   /* private Vector3 GetNewMovementPosition()
-    {
-        return originPosition + (Vector3)Random.insideUnitCircle * movementRadius;
-    }*/
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -48,28 +45,57 @@ public class Target : MonoBehaviour, IHittable
         }
     }
 
+    /*public void ChangeDifficulty(int difficulty)
+    {
+        switch(difficulty)
+        {
+            case 1:
+                x1 = 6f;
+                x2 = 8f;
+                y1 = 1f;
+                y2 = 2f;
+                z1 = -6f;
+                z2 = -2f;
+                break;
+            case 2:
+                x1 = 7f;
+                x2 = 11f;
+                y1 = 0.5f;
+                y2 = 3f;
+                z1 = -8f;
+                z2 = 0f;
+                break;
+            case 3:
+                x1 = 9f;
+                x2 = 15f;
+                y1 = 0f;
+                y2 = 4f;
+                z1 = -10f;
+                z2 = 2f;
+                break;
+        }
+    }*/
+
     public void GetHit()
     {
         FindObjectOfType<TimerScript>().StartTimer();
+        FindObjectOfType<ScoreCounter>().AddScore(1);
 
-        ScoreCount += 1 ;
-        ScoreDisplay.text = ScoreCount.ToString();
+        HitTargetToStart.SetActive(false);
 
-        transform.position = new Vector3(Random.Range(6f,7f), Random.Range(0.7f,2f), Random.Range(-8f,-4f));
-
-        /*health--;
-        if(health <= 0)
-        {
-            rb.isKinematic = false;
-            stopped = true;
-        }*/
+    
+        GameObject TargetCopy = Instantiate(TargetOriginal, new Vector3(Random.Range(10f,20f), Random.Range(0f,3f), Random.Range(-7f,-3f)), TargetOriginal.transform.rotation);
+        
+        StartCoroutine("Disabler");       
     }
-
-    public void FinalScore()
+        public IEnumerator Disabler()
     {
-        FinalScoreDisplay.text = "Final score: " + ScoreCount.ToString();
+        rb.isKinematic = false;
+        yield return new WaitForSeconds(2);
+        rb.isKinematic = true;
+        yield return new WaitForSeconds(1);
+        TargetOriginal.SetActive(false);
     }
-
     /*private void FixedUpdate()
     {
         if (stopped == false)
@@ -84,6 +110,7 @@ public class Target : MonoBehaviour, IHittable
         }
     }*/
 }
+
 
 public interface IHittable
 {
