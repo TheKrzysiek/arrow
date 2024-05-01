@@ -1181,6 +1181,8 @@ MonoBehaviour:
   midPointVisualObject: {fileID: 1318524541}
   midPointParent: {fileID: 1071043252055932969}
   bowStringStretchLimit: 0.3
+  stringSoundThreshold: 0.001
+  audioSource: {fileID: 0}
   OnBowPulled:
     m_PersistentCalls:
       m_Calls:
@@ -1228,6 +1230,7 @@ MonoBehaviour:
     type: 3}
   arrowSpawnPoint: {fileID: 4935276872955773724}
   arrowMaxSpeed: 10
+  bowReleaseAudioSource: {fileID: 0}
 --- !u!1001 &7580245838716533491
 PrefabInstance:
   m_ObjectHideFlags: 0
